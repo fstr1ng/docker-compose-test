@@ -1,0 +1,20 @@
+version: '3.5'
+
+services:
+  nginx:
+    container_name: nginx-proxy
+    image: jwilder/nginx-proxy
+    ports:
+     - "80:80"
+    volumes:
+     - /var/run/docker.sock:/tmp/docker.sock:ro
+     - /var/nginx/certs:/etc/nginx/certs
+     - /var/nginx/log:/var/log/nginx
+    environment:
+     - DEFAULT_HOST=localhost
+  
+  apache:
+    container_name: apache-web
+    build: .
+    environment:
+      - VIRTUAL_HOST=localhost
